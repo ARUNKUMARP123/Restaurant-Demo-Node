@@ -15,10 +15,12 @@ app.get("/",(req,res,next)=>{
 
 app.post("/login",(req,res,next)=>{
 console.log(req.body);
+res.send("Login Success");
 })
 
 app.post("/registration",(req,res,next)=>{
     console.log(req.body);
+    res.send("Registration Success");
     })
 
 app.listen(4000,()=>{
