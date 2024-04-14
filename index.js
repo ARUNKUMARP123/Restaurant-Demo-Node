@@ -1,6 +1,6 @@
 const express=require("express");
 const{connectdb,mongoose}=require("./db");
-const {handleUserRegistration,handleUserLogin}=require("./Services")
+const {handleUserRegistration,handleUserLogin,handleCreateBooking,handleRestaurantSlot}=require("./Services")
 
 
 const app=express();
@@ -31,6 +31,16 @@ handleUserLogin(req,res);
 app.post("/registration",(req,res,next)=>{
     handleUserRegistration(req,res);
     })
+
+    app.post("/createbooking",(req,res,next)=>{
+      handleCreateBooking(req,res);
+      })
+
+
+      app.post("/restaurant-slot",(req,res,next)=>{
+        handleRestaurantSlot(req,res);
+        })
+  
 
 app.listen(4000,()=>{
     console.log("Server Started at 4000")
