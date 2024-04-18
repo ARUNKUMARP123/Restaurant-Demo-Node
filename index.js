@@ -1,6 +1,6 @@
 const express=require("express");
 const{connectdb,mongoose}=require("./db");
-const {handleUserRegistration,handleUserLogin,handleCreateBooking,handleRestaurantSlot}=require("./Services")
+const {handleUserRegistration,handleUserLogin,handleCreateBooking,handleRestaurantSlot,fetchBookingForUser,cancelBooking}=require("./Services")
 
 
 const app=express();
@@ -40,6 +40,14 @@ app.post("/registration",(req,res,next)=>{
       app.post("/restaurant-slot",(req,res,next)=>{
         handleRestaurantSlot(req,res);
         })
+
+        app.get("/fetchBookingForUser/:username",(req,res,next)=>{
+          fetchBookingForUser(req,res);
+          })
+
+          app.get("/cancel-booking/:bookingId",(req,res,next)=>{
+            cancelBooking(req,res);
+            })
   
 
 app.listen(4000,()=>{

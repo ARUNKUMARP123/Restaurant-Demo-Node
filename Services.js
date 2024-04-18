@@ -1,4 +1,5 @@
 const {RegistrationModel, BookingModel}=require("./Schema")
+const {ObjectId}=require("mongodb");
 
 const   handleUserRegistration = (req,res) => {
  RegistrationModel.create({
@@ -33,6 +34,7 @@ const handleCreateBooking=(req,res)=>{
 
     BookingModel.create({
         ...req.body,
+        cancelled:false
     }).then((dbresponse)=>{
         console.log(dbresponse,"booking dbresponse");
         res.send(dbresponse.username);
@@ -61,5 +63,33 @@ console.log(req.body)
 
 }
 
+const fetchBookingForUser=(req,res)=>{
+console.log(req.params.username);
+const query =BookingModel.find({username:req.params.username,});
+query.select("restaurantId selectedDate selectedTime selectedSeat ")
+query.exec()
+    .then((dbresponse)=>{
+        console.log(dbresponse,"fetchBookingForUser dbresponse");
+        res.send(dbresponse);
+    }).catch((error)=>{
+            console.log(error,"DbError");
+            res.send("fetchBookingForUser Error");
+        })
+}
 
-module.exports={handleUserRegistration,handleUserLogin,handleCreateBooking,handleRestaurantSlot}
+const cancelBooking=async(req,res)=>{
+   console.log(req.params.bookingId)
+    const _id=new ObjectId(req.params.bookingId);
+    const filler={_id};
+    const update={cancelled:true}
+    const query=await BookingModel.findByIdAndUpdate(filler,update,{new:true});
+    console.log(query,"query")
+    if( query.cancelled){
+        res.send("Cancelled Successfully.");
+    }
+    else{
+        res.send("Cancel Failure.");
+    }
+}
+
+module.exports={handleUserRegistration,handleUserLogin,handleCreateBooking,handleRestaurantSlot,fetchBookingForUser,cancelBooking}

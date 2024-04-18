@@ -15,6 +15,7 @@ selectedDate:{type:String},
 selectedSeat:{type:Number},
 selectedTime:{type:String},
 username:{type:String},
+cancelled:{type:Boolean},
 })
 
 const RegistrationModel=mongoose.model("Regitration",RegistrationSchema);
